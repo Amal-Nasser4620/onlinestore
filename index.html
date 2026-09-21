@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر النجم الشامل | التجميل، النظافة، والأدوات البلاستيكية</title>
+    
+    <!-- Google Fonts (Cairo & Tajawal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            300: '#7cc8fc',
+                            400: '#36b0fa',
+                            500: '#0ca0f2',
+                            600: '#0081d5',
+                            700: '#0067af',
+                            800: '#055792',
+                            900: '#0a4878',
+                            950: '#072e50',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+        .gradient-blue-bg {
+            background: linear-gradient(135deg, #072e50 0%, #0a4878 30%, #0081d5 70%, #0ca0f2 100%);
+        }
+        .gradient-blue-card {
+            background: linear-gradient(135deg, #0a4878 0%, #0081d5 100%);
+        }
+        .gradient-blue-text {
+            background: linear-gradient(135deg, #0081d5, #0ca0f2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #36b0fa;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0081d5;
+        }
+        .badge-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        /* Toast notification */
+        #toast {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed top-24 left-4 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transform -translate-y-12 opacity-0 pointer-events-none transition-all">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMsg" class="text-sm font-semibold">تمت الإضافة بنجاح!</span>
+    </div>
+
+    <!-- Top Announcement Bar -->
+    <div class="gradient-blue-bg text-white text-xs sm:text-sm py-2 px-4 shadow-inner">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5 bg-white/20 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    <i class="fa-solid fa-truck-fast"></i> شحن مجاني
+                </span>
+                <p class="truncate text-center sm:text-right">توصيل مجاني للطلبات الكبيرة! استخدم كود الخصم: <span class="font-black underline text-yellow-300">STAR2026</span></p>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+                <a href="tel:+966500000000" class="hover:text-blue-200 transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-phone"></i> +966 50 000 0000
+                </a>
+                <span class="text-blue-300">|</span>
+                <div class="flex items-center gap-2.5 text-sm">
+                    <a href="https://wa.me/966500000000" target="_blank" class="hover:text-emerald-300 transition" title="واتساب"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="hover:text-pink-300 transition" title="انستغرام"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://tiktok.com" target="_blank" class="hover:text-cyan-300 transition" title="تيك توك"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://facebook.com" target="_blank" class="hover:text-blue-300 transition" title="فيسبوك"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header & Navigation Bar (Nav) -->
+    <header class="sticky top-0 z-40 glass-header border-b border-slate-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Logo Section -->
+                <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                    <div class="relative w-12 h-12 rounded-2xl gradient-blue-bg flex items-center justify-center text-white shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid fa-star text-2xl text-yellow-300 transform group-hover:rotate-12 transition-transform"></i>
+                        <i class="fa-solid fa-sparkles absolute -top-1 -right-1 text-xs text-cyan-200"></i>
+                        <i class="fa-solid fa-pump-soap absolute bottom-1 right-1 text-[10px] text-white opacity-80"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-brand-600 transition-colors">
+                            النجم <span class="gradient-blue-text">الشامل</span>
+                        </span>
+                        <p class="text-[10px] font-semibold text-slate-500 tracking-wider">عالم التجميل والمنظفات والبلاستيك</p>
+                    </div>
+                </a>
+
+                <!-- Live Search Bar (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-lg mx-6">
+                    <div class="relative w-full flex items-center">
+                        <select id="searchCategorySelect" onchange="filterProducts()" class="bg-slate-100 border-l border-slate-300 text-slate-700 text-xs font-bold rounded-r-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">كل الأقسام</option>
+                            <option value="beauty">التجميل والعناية</option>
+                            <option value="cleaning">أدوات النظافة</option>
+                            <option value="plastic">الأدوات البلاستيكية</option>
+                        </select>
+                        <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="ابحث عن منتج، ماركة، أو قسم..." class="w-full bg-slate-100 text-slate-800 text-xs sm:text-sm px-4 py-2.5 rounded-l-none border-0 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                        <button onclick="filterProducts()" class="absolute left-1 bg-brand-600 hover:bg-brand-700 text-white p-2 rounded-lg transition-colors">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Wishlist, Cart, Mobile Menu) -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    
+                    <!-- Search Icon (Mobile Toggle) -->
+                    <button onclick="toggleMobileSearch()" class="md:hidden p-2.5 text-slate-600 hover:text-brand-600 hover:bg-slate-100 rounded-xl transition">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </button>
+
+                    <!-- Wishlist Button -->
+                    <button onclick="toggleWishlistDrawer()" class="relative p-2.5 text-slate-600 hover:text-red-500 hover:bg-red-50 rounded-xl transition" title="المفضلة">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                        <span id="wishlistCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Shopping Cart Button -->
+                    <button onclick="toggleCartDrawer()" class="relative flex items-center gap-2 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-3.5 py-2.5 rounded-xl shadow-md shadow-brand-500/20 transition-all transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                        <span class="hidden sm:inline font-bold text-xs">السلة</span>
+                        <span id="cartCount" class="bg-white text-brand-800 font-black text-xs px-2 py-0.5 rounded-full badge-pulse">0</span>
+                    </button>
+
+                    <!-- Mobile Navigation Hamburger Button -->
+                    <button onclick="toggleMobileNav()" class="md:hidden p-2.5 text-slate-600 hover:text-brand-600 hover:bg-slate-100 rounded-xl transition" title="القائمة">
+                        <i class="fa-solid fa-bars-staggered text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar Expanded -->
+            <div id="mobileSearchBar" class="hidden md:hidden pb-4 transition-all">
+                <div class="relative w-full flex items-center">
+                    <input type="text" id="mobileSearchInput" onkeyup="syncMobileSearch()" placeholder="ابحث عن منتج، ماركة، أو قسم..." class="w-full bg-slate-100 text-slate-800 text-sm px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:bg-white">
+                    <button onclick="filterProducts()" class="absolute left-2 bg-brand-600 text-white p-2 rounded-lg">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Nav Links -->
+        <nav class="hidden md:block border-t border-slate-100 bg-slate-50/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between py-2.5 text-sm font-bold text-slate-700">
+                    <div class="flex items-center gap-6">
+                        <a href="#" class="hover:text-brand-600 transition flex items-center gap-1.5 text-brand-700"><i class="fa-solid fa-house"></i> الرئيسية</a>
+                        <a href="#about-section" class="hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> من نحن / التعريف بالمتجر</a>
+                        <button onclick="setActiveCategory('all')" class="category-nav-btn hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-border-all"></i> جميع المنتجات</button>
+                        <button onclick="setActiveCategory('beauty')" class="category-nav-btn hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-pump-soap text-pink-500"></i> مستلزمات التجميل</button>
+                        <button onclick="setActiveCategory('cleaning')" class="category-nav-btn hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-spray-can-sparkles text-cyan-500"></i> أدوات النظافة</button>
+                        <button onclick="setActiveCategory('plastic')" class="category-nav-btn hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-box-open text-amber-500"></i> الأدوات البلاستيكية</button>
+                    </div>
+                    <div>
+                        <a href="#offers" class="text-red-500 flex items-center gap-1 hover:text-red-600 font-extrabold animate-pulse">
+                            <i class="fa-solid fa-fire"></i> العروض الحصرية
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Drawer Side Menu -->
+    <div id="mobileNavDrawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="mobileNavContent" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-2xl transition-transform duration-300 transform translate-x-full flex flex-col justify-between">
+            <div>
+                <div class="gradient-blue-bg p-5 text-white flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-star text-yellow-300 text-xl"></i>
+                        <span class="font-bold text-lg">النجم الشامل</span>
+                    </div>
+                    <button onclick="toggleMobileNav()" class="text-white hover:text-slate-200 text-xl">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="p-4 space-y-2 font-semibold text-slate-700">
+                    <a href="#" onclick="toggleMobileNav()" class="w-full text-right p-3 rounded-xl hover:bg-slate-100 flex items-center gap-3">
+                        <i class="fa-solid fa-house text-brand-600"></i> الصفحة الرئيسية
+                    </a>
+                    <a href="#about-section" onclick="toggleMobileNav()" class="w-full text-right p-3 rounded-xl hover:bg-slate-100 flex items-center gap-3">
+                        <i class="fa-solid fa-circle-info text-blue-600"></i> التعريف بالمتجر (من نحن)
+                    </a>
+                    <button onclick="setActiveCategory('all'); toggleMobileNav()" class="w-full text-right p-3 rounded-xl hover:bg-slate-100 flex items-center gap-3">
+                        <i class="fa-solid fa-border-all text-slate-600"></i> كل المنتجات
+                    </button>
+                    <button onclick="setActiveCategory('beauty'); toggleMobileNav()" class="w-full text-right p-3 rounded-xl hover:bg-slate-100 flex items-center gap-3">
+                        <i class="fa-solid fa-pump-soap text-pink-500"></i> مستلزمات التجميل
+                    </button>
+                    <button onclick="setActiveCategory('cleaning'); toggleMobileNav()" class="w-full text-right p-3 rounded-xl hover:bg-slate-100 flex items-center gap-3">
+                        <i class="fa-solid fa-spray-can-sparkles text-cyan-500"></i> أدوات النظافة
+                    </button>
+                    <button onclick="setActiveCategory('plastic'); toggleMobileNav()" class="w-full text-right p-3 rounded-xl hover:bg-slate-100 flex items-center gap-3">
+                        <i class="fa-solid fa-box-open text-amber-500"></i> الأدوات البلاستيكية
+                    </button>
+                    <hr class="my-2 border-slate-100">
+                    <a href="#social-links" onclick="toggleMobileNav()" class="block p-3 rounded-xl hover:bg-slate-100 text-slate-600 flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-emerald-500"></i> تواصل معنا
+                    </a>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t text-center text-xs text-slate-500">
+                متجر النجم الشامل &copy; 2026 - جميع الحقوق محفوظة
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Slider Container -->
+    <section class="relative bg-slate-950 overflow-hidden">
+        <div id="heroSlider" class="relative w-full h-[400px] sm:h-[480px] lg:h-[520px]">
+            <!-- Slide 1: Beauty -->
+            <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100">
+                <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=80" alt="Cosmetics" class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full text-white">
+                        <span class="inline-block px-3.5 py-1 bg-pink-600/90 rounded-full text-xs font-bold tracking-wide mb-3"><i class="fa-solid fa-sparkles"></i> عناية وجمال متكامل</span>
+                        <h1 class="text-3xl sm:text-5xl font-black mb-4 leading-tight">عالم الجمال والعناية<br><span class="text-brand-300">بأفضل الماركات الأصلية</span></h1>
+                        <p class="text-slate-300 text-xs sm:text-base max-w-lg mb-6">احصلي على أرقى مستحضرات التجميل ومنتجات العناية بالبشرة والشعر بأسعار تنافسية وخيارات متعددة.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="setActiveCategory('beauty'); scrollToProducts()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-brand-500/40 transition transform hover:-translate-y-1">تسوق التجميل الآن</button>
+                            <a href="#about-section" class="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl transition">تعرف على متجرنا</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Cleaning -->
+            <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0 pointer-events-none">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80" alt="Cleaning Supplies" class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full text-white">
+                        <span class="inline-block px-3.5 py-1 bg-cyan-600/90 rounded-full text-xs font-bold tracking-wide mb-3"><i class="fa-solid fa-spray-can-sparkles"></i> نظافة وانتعاش يدوم</span>
+                        <h2 class="text-3xl sm:text-5xl font-black mb-4 leading-tight">حلول النظافة والتعقيم<br><span class="text-cyan-300">لمنزل صحي ومشرق</span></h2>
+                        <p class="text-slate-300 text-xs sm:text-base max-w-lg mb-6">أفضل المطهّرات، المعقمات، والأدوات الحديثة للتنظيف السريع والفعال في مكان واحد.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="setActiveCategory('cleaning'); scrollToProducts()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-1">تصفح أدوات النظافة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Plastics -->
+            <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0 pointer-events-none">
+                <img src="https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?auto=format&fit=crop&w=1600&q=80" alt="Plastics" class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full text-white">
+                        <span class="inline-block px-3.5 py-1 bg-amber-600/90 rounded-full text-xs font-bold tracking-wide mb-3"><i class="fa-solid fa-box-open"></i> ترتيب وتنظيم مثالي</span>
+                        <h2 class="text-3xl sm:text-5xl font-black mb-4 leading-tight">تشكيلة البلاستيكيات الفاخرة<br><span class="text-amber-300">للمطبخ والمنزل</span></h2>
+                        <p class="text-slate-300 text-xs sm:text-base max-w-lg mb-6">حافظات طعام آمنة، منظمات ذكية، ومستلزمات سفرة وضيافة ذات جودة متينة وشكل أنيق.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="setActiveCategory('plastic'); scrollToProducts()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-1">تصفح البلاستيكيات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Navigation Controls -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+            <button onclick="setSlide(0)" class="slide-dot w-8 h-3 rounded-full bg-brand-500 transition-all"></button>
+            <button onclick="setSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+            <button onclick="setSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+        </div>
+    </section>
+
+    <!-- About Store Section (قسم التعريف بالمتجر) -->
+    <section id="about-section" class="py-16 bg-white border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Details / Vision -->
+                <div>
+                    <span class="inline-block px-3 py-1 bg-brand-50 text-brand-700 font-extrabold text-xs rounded-full mb-3 border border-brand-200">
+                        <i class="fa-solid fa-star text-yellow-500"></i> مرحباً بكم في متجرنا
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight mb-4">
+                        الوجهة الأولى والأشمل لمستلزمات <span class="gradient-blue-text">بيتك وعنايتك الشخصية</span>
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+                        تأسس <strong>متجر النجم الشامل</strong> ليكون خياركم الموثوق والأول لتوفير أفضل وأعلى جودة من أدوات التجميل، أجهزة العناية الشخصية، المنظفات والمطهرات المنزلية الفعالة، والأدوات البلاستيكية وحافظات الطعام. نسعى دائماً لتقديم التوازن المثالي بين <strong>الجودة العالية</strong> و<strong>الأسعار الموفرة</strong>.
+                    </p>
+
+                    <!-- Core Pillars Grid -->
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                            <div class="p-2.5 bg-brand-100 text-brand-700 rounded-xl">
+                                <i class="fa-solid fa-shield-halved text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm">منتجات أصليّة 100%</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">ضمان على كافة المنتجات والمستلزمات</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                            <div class="p-2.5 bg-emerald-100 text-emerald-700 rounded-xl">
+                                <i class="fa-solid fa-truck-fast text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm">توصيل سريع وآمن</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">توصيل لكل المناطق بأسرع وقت</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <button onclick="scrollToProducts()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-brand-600/30 transition">تصفح المنتجات الآن</button>
+                        <a href="https://wa.me/966500000000" target="_blank" class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-3 rounded-xl transition shadow-md shadow-emerald-500/20">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>تواصل معنا مباشرة</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Visual Banner & Stats Box -->
+                <div class="relative">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=80" alt="About Store" class="w-full h-[380px] sm:h-[420px] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+                            <span class="text-yellow-400 font-extrabold text-xs mb-1">متجر النجم الشامل</span>
+                            <h3 class="text-2xl font-black">جودة تثق بها ورعاية تستحقها</h3>
+                        </div>
+                    </div>
+
+                    <!-- Floating Statistics Bar -->
+                    <div class="mt-6 sm:-mt-10 sm:relative sm:z-10 grid grid-cols-3 gap-3 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 text-center">
+                        <div>
+                            <span class="block text-2xl font-black text-brand-700">+5000</span>
+                            <span class="text-[11px] font-bold text-slate-500">عميل سعيد</span>
+                        </div>
+                        <div class="border-r border-slate-200">
+                            <span class="block text-2xl font-black text-brand-700">+1200</span>
+                            <span class="text-[11px] font-bold text-slate-500">منتج متوفر</span>
+                        </div>
+                        <div class="border-r border-slate-200">
+                            <span class="block text-2xl font-black text-brand-700">100%</span>
+                            <span class="text-[11px] font-bold text-slate-500">رضاء الضمان</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Quick Grid -->
+    <section class="py-12 bg-slate-50 border-b border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900">أقسام المتجر الرئيسية</h2>
+                <p class="text-slate-500 text-sm mt-2">تسوق بسهولة عبر التشكيلات المختارة بعناية لتلبية كافة احتياجاتك</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Category 1 -->
+                <div onclick="setActiveCategory('beauty'); scrollToProducts()" class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 cursor-pointer h-60">
+                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" alt="Beauty" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent flex flex-col justify-end p-6 text-white">
+                        <span class="text-pink-400 font-bold text-xs uppercase tracking-wider mb-1"><i class="fa-solid fa-heart"></i> أناقة وجمال</span>
+                        <h3 class="text-2xl font-extrabold mb-1">مستلزمات التجميل</h3>
+                        <p class="text-slate-300 text-xs">مكياج، سيرومات، وعطور العناية بالشعر والبشرة</p>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div onclick="setActiveCategory('cleaning'); scrollToProducts()" class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 cursor-pointer h-60">
+                    <img src="https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=800&q=80" alt="Cleaning" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent flex flex-col justify-end p-6 text-white">
+                        <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider mb-1"><i class="fa-solid fa-sparkles"></i> نظافة متكاملة</span>
+                        <h3 class="text-2xl font-extrabold mb-1">أدوات المنظفات</h3>
+                        <p class="text-slate-300 text-xs">مطهرات، منظفات أرضيات، وأدوات مسح حديثة</p>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div onclick="setActiveCategory('plastic'); scrollToProducts()" class="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 cursor-pointer h-60">
+                    <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=800&q=80" alt="Plasticware" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent flex flex-col justify-end p-6 text-white">
+                        <span class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-1"><i class="fa-solid fa-cubes"></i> جودة ومتانة</span>
+                        <h3 class="text-2xl font-extrabold mb-1">الأدوات البلاستيكية</h3>
+                        <p class="text-slate-300 text-xs">علب تخزين، مستلزمات سفرة، ومنظمات منزلية</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Product Catalog Section -->
+    <section id="productsSection" class="py-12 bg-white min-h-[600px]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title & Filters Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900">منتجاتنا المميزة</h2>
+                    <p class="text-slate-500 text-sm mt-1">اختر من بين تشكيلتنا الواسعة من المنتجات الموثوقة</p>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="setActiveCategory('all')" class="cat-pill active-pill bg-brand-600 text-white px-4 py-2 rounded-xl text-sm font-bold transition shadow-md shadow-brand-500/20">الكل</button>
+                    <button onclick="setActiveCategory('beauty')" class="cat-pill bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-xl text-sm font-bold transition">التجميل</button>
+                    <button onclick="setActiveCategory('cleaning')" class="cat-pill bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-xl text-sm font-bold transition">النظافة</button>
+                    <button onclick="setActiveCategory('plastic')" class="cat-pill bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-xl text-sm font-bold transition">البلاستيكيات</button>
+                    
+                    <!-- Sorting Dropdown -->
+                    <select id="sortSelect" onchange="sortProducts()" class="bg-slate-100 border border-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl px-3 py-2 focus:ring-2 focus:ring-brand-500 focus:outline-none mr-auto md:mr-2">
+                        <option value="default">الترتيب الافتراضي</option>
+                        <option value="price-asc">السعر: من الأقل إلى الأعلى</option>
+                        <option value="price-desc">السعر: من الأعلى إلى الأقل</option>
+                        <option value="rating">الأعلى تقييماً</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Dynamic Javascript Rendering -->
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="noProductsFound" class="hidden text-center py-16">
+                <i class="fa-solid fa-box-open text-6xl text-slate-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-slate-700">لم يتم العثور على أي منتجات</h3>
+                <p class="text-slate-500 text-sm mt-1">جرب البحث بكلمات أخرى أو تغيير الفئة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Discount Banner -->
+    <section id="offers" class="py-12 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden gradient-blue-bg p-8 sm:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="z-10 max-w-xl text-center md:text-right">
+                    <span class="bg-yellow-400 text-slate-900 font-black text-xs uppercase px-3.5 py-1 rounded-full shadow">عرض حصري محدود</span>
+                    <h2 class="text-3xl sm:text-4xl font-black my-4 leading-tight">خصم يصل إلى 35% على طقوم البلاستيك وأدوات المنظفات</h2>
+                    <p class="text-blue-100 text-xs sm:text-base mb-6">احصل على باقات التوفير المتكاملة لبيتك بأسعار منافسة للغاية وشحن سريع لجميع المناطق.</p>
+                    <button onclick="setActiveCategory('all'); scrollToProducts()" class="bg-white text-brand-800 hover:bg-slate-100 font-black px-8 py-3.5 rounded-xl shadow-lg transition transform hover:scale-105">تسوق العروض الآن</button>
+                </div>
+                <div class="relative z-10 w-full md:w-1/3 flex justify-center">
+                    <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 transform rotate-3 hover:rotate-0 transition duration-300">
+                        <img src="https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?auto=format&fit=crop&w=600&q=80" alt="Promo product" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features & Active Social Media Links Bar -->
+    <section id="social-links" class="py-12 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Value Features -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 text-center">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <i class="fa-solid fa-truck-fast text-3xl text-brand-600 mb-2"></i>
+                    <h4 class="font-bold text-slate-800 text-sm sm:text-base">توصيل سريع</h4>
+                    <p class="text-xs text-slate-500 mt-1">توصيل لجميع المناطق خلال 24-48 ساعة</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <i class="fa-solid fa-shield-halved text-3xl text-brand-600 mb-2"></i>
+                    <h4 class="font-bold text-slate-800 text-sm sm:text-base">منتجات مضمونة</h4>
+                    <p class="text-xs text-slate-500 mt-1">جودة عالية 100% وأصلية</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <i class="fa-solid fa-headset text-3xl text-brand-600 mb-2"></i>
+                    <h4 class="font-bold text-slate-800 text-sm sm:text-base">دعم متواصل</h4>
+                    <p class="text-xs text-slate-500 mt-1">خدمة عملاء ممتازة على مدار الساعة</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <i class="fa-solid fa-rotate-left text-3xl text-brand-600 mb-2"></i>
+                    <h4 class="font-bold text-slate-800 text-sm sm:text-base">استرجاع سهل</h4>
+                    <p class="text-xs text-slate-500 mt-1">سياسة استبدال مريحة خلال 7 أيام</p>
+                </div>
+            </div>
+
+            <!-- Social Media Handles Section -->
+            <div class="text-center">
+                <h3 class="text-xl font-bold text-slate-800 mb-2">تابعنا على وسائل التواصل الاجتماعي</h3>
+                <p class="text-sm text-slate-500 mb-6">كن أول من يعلم بالعروض الجديدة والتخفيضات اليومية</p>
+                <div class="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/966500000000" target="_blank" class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2.5 rounded-xl transition shadow-md shadow-emerald-500/20">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>واتساب</span>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://instagram.com" target="_blank" class="flex items-center gap-2 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-90 text-white font-semibold px-4 py-2.5 rounded-xl transition shadow-md">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                        <span>انستغرام</span>
+                    </a>
+                    <!-- TikTok -->
+                    <a href="https://tiktok.com" target="_blank" class="flex items-center gap-2 bg-slate-900 hover:bg-black text-white font-semibold px-4 py-2.5 rounded-xl transition shadow-md">
+                        <i class="fa-brands fa-tiktok text-lg"></i>
+                        <span>تيك توك</span>
+                    </a>
+                    <!-- Facebook -->
+                    <a href="https://facebook.com" target="_blank" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl transition shadow-md">
+                        <i class="fa-brands fa-facebook-f text-lg"></i>
+                        <span>فيسبوك</span>
+                    </a>
+                    <!-- Snapchat -->
+                    <a href="https://snapchat.com" target="_blank" class="flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2.5 rounded-xl transition shadow-md">
+                        <i class="fa-brands fa-snapchat text-lg"></i>
+                        <span>سناب شات</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                
+                <!-- About Column -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl gradient-blue-bg flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-star text-yellow-300"></i>
+                        </div>
+                        <span class="text-xl font-black text-white">النجم الشامل</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                        وجهتكم الموثوقة الأولى لشراء أفضل أدوات ومستلزمات التجميل، المنظفات المنزلية عالية الفعالية، والأدوات البلاستيكية المتينة.
+                    </p>
+                    <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot text-brand-500"></i> الرياض، المملكة العربية السعودية</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-4 border-r-4 border-brand-500 pr-2">روابط سريعة</h4>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="hover:text-brand-400 transition">الرئيسية</a></li>
+                        <li><a href="#about-section" class="hover:text-brand-400 transition">عن المتجر (تعريف)</a></li>
+                        <li><a href="#" onclick="setActiveCategory('all')" class="hover:text-brand-400 transition">جميع المنتجات</a></li>
+                        <li><a href="#" onclick="setActiveCategory('beauty')" class="hover:text-brand-400 transition">مستلزمات التجميل</a></li>
+                        <li><a href="#" onclick="setActiveCategory('cleaning')" class="hover:text-brand-400 transition">أدوات المنظفات</a></li>
+                        <li><a href="#" onclick="setActiveCategory('plastic')" class="hover:text-brand-400 transition">الأدوات البلاستيكية</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Service -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-4 border-r-4 border-brand-500 pr-2">خدمة العملاء</h4>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="hover:text-brand-400 transition">الأسئلة الشائعة</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">سياسة الشحن والتوصيل</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">سياسة الاسترجاع والاستبدال</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">الشروط والأحكام</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-4 border-r-4 border-brand-500 pr-2">النشرة البريدية</h4>
+                    <p class="text-xs sm:text-sm text-slate-400 mb-3">اشترك معنا ليصلك جديد المنتجات والعروض الحصرية مباشرة:</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" required placeholder="أدخل بريدك الإلكتروني" class="w-full bg-slate-900 border border-slate-800 text-xs sm:text-sm px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none text-white">
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm py-2.5 rounded-xl transition">اشتراك الآن</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-slate-500 text-center md:text-right">جميع الحقوق محفوظة &copy; 2026 لمجر <span class="text-slate-300 font-semibold">النجم الشامل</span>.</p>
+                <div class="flex items-center gap-3 text-slate-400 text-xl">
+                    <span class="text-xs font-semibold text-slate-500">طرق الدفع المتاحة:</span>
+                    <i class="fa-brands fa-cc-visa hover:text-white transition" title="Visa"></i>
+                    <i class="fa-brands fa-cc-mastercard hover:text-white transition" title="Mastercard"></i>
+                    <i class="fa-brands fa-apple-pay hover:text-white transition text-2xl" title="Apple Pay"></i>
+                    <span class="bg-slate-800 text-[10px] font-bold px-2 py-0.5 rounded text-white">مدى mada</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Drawer Modal -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="cartDrawerContent" class="fixed top-0 left-0 h-full w-full max-w-md bg-white shadow-2xl transition-transform duration-300 transform -translate-x-full flex flex-col justify-between">
+            
+            <!-- Cart Header -->
+            <div class="gradient-blue-bg p-5 text-white flex justify-between items-center shadow-md">
+                <div class="flex items-center gap-2 font-bold text-lg">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>سلة التسوق</span>
+                </div>
+                <button onclick="toggleCartDrawer()" class="text-white hover:text-slate-200 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-4">
+                <!-- Dynamic Items -->
+            </div>
+
+            <!-- Cart Footer Summary -->
+            <div class="p-5 bg-slate-50 border-t border-slate-200 space-y-3">
+                <div class="flex justify-between items-center text-sm font-semibold text-slate-600">
+                    <span>المجموع الفرعي:</span>
+                    <span id="cartSubtotal" class="font-bold text-slate-900">0.00 ر.س</span>
+                </div>
+                <div class="flex justify-between items-center text-sm font-semibold text-slate-600">
+                    <span>التوصيل:</span>
+                    <span id="cartShipping" class="text-emerald-600 font-bold">مجاني</span>
+                </div>
+                <hr class="border-slate-200">
+                <div class="flex justify-between items-center text-base font-extrabold text-slate-900">
+                    <span>الإجمالي الكلي:</span>
+                    <span id="cartTotal" class="text-lg text-brand-700">0.00 ر.س</span>
+                </div>
+
+                <button onclick="openCheckoutModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> متابعة إتمام الطلب
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Drawer Modal -->
+    <div id="wishlistDrawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="wishlistDrawerContent" class="fixed top-0 left-0 h-full w-full max-w-md bg-white shadow-2xl transition-transform duration-300 transform -translate-x-full flex flex-col justify-between">
+            <div class="bg-red-500 p-5 text-white flex justify-between items-center">
+                <div class="flex items-center gap-2 font-bold text-lg">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>المفضلة</span>
+                </div>
+                <button onclick="toggleWishlistDrawer()" class="text-white hover:text-slate-100 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="wishlistItemsList" class="flex-1 overflow-y-auto p-4 space-y-4">
+                <!-- Dynamic Items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl relative p-6 sm:p-8">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 left-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full w-9 h-9 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-2 text-2xl">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-slate-900">إتمام الطلب الشامل</h3>
+                <p class="text-xs text-slate-500">أدخل معلومات الشحن والتوصيل للبدء بمعالجة طلبك</p>
+            </div>
+
+            <form onsubmit="handleCheckoutSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الكامل *</label>
+                    <input type="text" required placeholder="أدخل اسمك الكريم" class="w-full bg-slate-50 border border-slate-200 text-xs sm:text-sm px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">رقم الهاتف / الواتساب *</label>
+                    <input type="tel" required placeholder="0500000000" class="w-full bg-slate-50 border border-slate-200 text-xs sm:text-sm px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">المدينة والحي *</label>
+                    <input type="text" required placeholder="مثال: الرياض - حي النرجس" class="w-full bg-slate-50 border border-slate-200 text-xs sm:text-sm px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">طريقة الدفع</label>
+                    <select class="w-full bg-slate-50 border border-slate-200 text-xs sm:text-sm px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none font-semibold">
+                        <option value="cod">الدفع عند الاستلام (COD)</option>
+                        <option value="online">بطاقة مدى / فيزا / أبل باي</option>
+                    </select>
+                </div>
+
+                <div class="bg-brand-50 p-4 rounded-xl border border-brand-100 flex justify-between items-center text-sm font-bold">
+                    <span class="text-brand-900">المبلغ المطلوب دفعُه:</span>
+                    <span id="checkoutAmount" class="text-brand-700 text-base">0.00 ر.س</span>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl shadow-lg shadow-emerald-600/30 transition">
+                    تاكيد الطلب الآن
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative p-6 sm:p-8">
+            <button onclick="closeQuickView()" class="absolute top-4 left-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full w-9 h-9 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="quickViewContent" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                <!-- Dynamic Quick View content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Live WhatsApp Button -->
+    <a href="https://wa.me/966500000000" target="_blank" title="تواصل عبر الواتساب المباشر" class="fixed bottom-6 left-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl shadow-emerald-500/40 transition-transform duration-300 hover:scale-110">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Application Logic Script -->
+    <script>
+        // Full Product Database
+        const products = [
+            // Beauty Category
+            {
+                id: 1,
+                name: "مجموعة أحمر شفاه مخملية فاخرة",
+                category: "beauty",
+                price: 85,
+                oldPrice: 120,
+                rating: 4.8,
+                reviews: 42,
+                image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=600&q=80",
+                description: "مجموعة أرواج بتغطية مخملية غنية تدوم طويلاً مع تركيبة مرطبة غنية بشمع العسل وفيتامين E."
+            },
+            {
+                id: 2,
+                name: "سيروم العناية بالبشرة وحمض الهيالورونيك",
+                category: "beauty",
+                price: 110,
+                oldPrice: 150,
+                rating: 4.9,
+                reviews: 88,
+                image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
+                description: "سيروم مركز لترطيب البشرة العميق ومحاربة علامات الإرهاق والجفاف وإعطاء نضارة فورية."
+            },
+            {
+                id: 3,
+                name: "عطر زهرة اللافندر الفاخر 100 مل",
+                category: "beauty",
+                price: 190,
+                oldPrice: 240,
+                rating: 4.7,
+                reviews: 31,
+                image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=600&q=80",
+                description: "رائحة زكية وجذابة تدوم طوال اليوم بمزيج اللافندر الطبيعي ولمسات المسك الأبيض."
+            },
+            {
+                id: 4,
+                name: "طقم فرش مكياج احترافي 12 قطعة",
+                category: "beauty",
+                price: 65,
+                oldPrice: 95,
+                rating: 4.6,
+                reviews: 19,
+                image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+                description: "فرش ناعمة جداً ومصنوعة من شعيرات عالية الجودة لتطبيق المكياج بدقة ودون تكتل."
+            },
+
+            // Cleaning Category
+            {
+                id: 5,
+                name: "منظف ومطهر الأرضيات الشامل 3 لتر",
+                category: "cleaning",
+                price: 38,
+                oldPrice: 50,
+                rating: 4.8,
+                reviews: 120,
+                image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=600&q=80",
+                description: "يطهر 99.9% من الجراثيم مع رائحة الصنوبر المنعشة والقضاء على البقع الصعبة بلمعة براقة."
+            },
+            {
+                id: 6,
+                name: "ممسحة أرضيات ذكية مع دلو العصر الآلي",
+                category: "cleaning",
+                price: 79,
+                oldPrice: 110,
+                rating: 4.9,
+                reviews: 95,
+                image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
+                description: "ممسحة مايكروفايبر مع دلو تفريغ وعصر آلي ذكي لتنظيف مريح بدون أن تتسخ يداك."
+            },
+            {
+                id: 7,
+                name: "بخاخ متعدد الاستخدامات للأسطح",
+                category: "cleaning",
+                price: 22,
+                oldPrice: 30,
+                rating: 4.5,
+                reviews: 64,
+                image: "https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?auto=format&fit=crop&w=600&q=80",
+                description: "بخاخ فعال للغاية لإزالة الدهون والرواسب على أسطح المطبخ والحمام والزجاج بسهولة."
+            },
+            {
+                id: 8,
+                name: "طقم مناشف مايكروفايبر فائق الامتصاص (6 قطع)",
+                category: "cleaning",
+                price: 29,
+                oldPrice: 40,
+                rating: 4.7,
+                reviews: 53,
+                image: "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&w=600&q=80",
+                description: "مناشف تنظيف ناعمة لا تترك أثراً ولا تخدش الأسطح وممتازة للتنشيف والتلميع."
+            },
+
+            // Plastic Category
+            {
+                id: 9,
+                name: "طقم حافظات طعام محكمة الإغلاق 8 قطع",
+                category: "plastic",
+                price: 55,
+                oldPrice: 80,
+                rating: 4.9,
+                reviews: 110,
+                image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?auto=format&fit=crop&w=600&q=80",
+                description: "علب حفظ الطعام خالية من BPA وآمنة للاستخدام في المايكروويف وغسالة الصحون والمجمد."
+            },
+            {
+                id: 10,
+                name: "منظم ثلاجة ومطبخ شفاف أظرف متعددة",
+                category: "plastic",
+                price: 45,
+                oldPrice: 65,
+                rating: 4.8,
+                reviews: 76,
+                image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=600&q=80",
+                description: "منظمات بلاستيكية شفافة ومتينة لترتيب الفواكه، الخضروات والعلب داخل الثلاجة والرفوف."
+            },
+            {
+                id: 11,
+                name: "طقم أطباق وكؤوس بلاستيكية فاخرة للمناسبات",
+                category: "plastic",
+                price: 35,
+                oldPrice: 50,
+                rating: 4.6,
+                reviews: 41,
+                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+                description: "مجموعة بلاستيكية مقواة وراقية بتصميم عصري يناسب الحفلات والسفر ورحلات الرحلات."
+            },
+            {
+                id: 12,
+                name: "سلة نفايات ذكية بدواسة قدم 15 لتر",
+                category: "plastic",
+                price: 49,
+                oldPrice: 70,
+                rating: 4.7,
+                reviews: 38,
+                image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80",
+                description: "سلة بلاستيكية عالية المتانة مع إغلاق هادئ وغطاء محكم يمنع انتشار روائح النفايات."
+            }
+        ];
+
+        // Global Application State
+        let cart = [];
+        let wishlist = [];
+        let currentCategory = 'all';
+        let currentSlide = 0;
+
+        // Toast Notification System
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toastMsg');
+            const iconEl = document.getElementById('toastIcon');
+
+            msgEl.textContent = message;
+            if (isError) {
+                iconEl.className = 'fa-solid fa-circle-exclamation text-red-400 text-lg';
+            } else {
+                iconEl.className = 'fa-solid fa-circle-check text-emerald-400 text-lg';
+            }
+
+            toast.classList.remove('-translate-y-12', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('-translate-y-12', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Render Products Grid
+        function renderProducts(itemsToRender = products) {
+            const grid = document.getElementById('productsGrid');
+            const emptyMsg = document.getElementById('noProductsFound');
+
+            if (!itemsToRender || itemsToRender.length === 0) {
+                grid.innerHTML = '';
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+            grid.innerHTML = itemsToRender.map(product => {
+                const isWishlisted = wishlist.includes(product.id);
+                return `
+                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition duration-300 overflow-hidden flex flex-col justify-between group">
+                    <div class="relative overflow-hidden aspect-square bg-slate-100">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        
+                        ${product.oldPrice ? `
+                            <span class="absolute top-3 right-3 bg-red-500 text-white font-extrabold text-[11px] px-2.5 py-1 rounded-full shadow">
+                                خصم ${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
+                            </span>
+                        ` : ''}
+
+                        <button onclick="toggleWishlist(${product.id})" class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-600 hover:text-red-500 flex items-center justify-center shadow transition ${isWishlisted ? 'text-red-500' : ''}">
+                            <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart text-base"></i>
+                        </button>
+
+                        <button onclick="openQuickView(${product.id})" class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300 shadow">
+                            معاينة سريعة
+                        </button>
+                    </div>
+
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+                                <i class="fa-solid fa-star"></i>
+                                <span class="font-bold text-slate-700">${product.rating}</span>
+                                <span class="text-slate-400 text-[10px]">(${product.reviews})</span>
+                            </div>
+                            <h3 class="font-bold text-slate-800 text-xs sm:text-sm line-clamp-2 hover:text-brand-600 transition cursor-pointer" onclick="openQuickView(${product.id})">
+                                ${product.name}
+                            </h3>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                            <div>
+                                <span class="text-base sm:text-lg font-black text-brand-700">${product.price} <span class="text-xs font-normal">ر.س</span></span>
+                                ${product.oldPrice ? `<span class="text-[10px] sm:text-xs text-slate-400 line-through block">${product.oldPrice} ر.س</span>` : ''}
+                            </div>
+                            <button onclick="addToCart(${product.id})" class="bg-brand-600 hover:bg-brand-700 text-white p-2.5 rounded-xl transition shadow-md shadow-brand-500/20 active:scale-95" title="إضافة للسلة">
+                                <i class="fa-solid fa-cart-plus text-base"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function setActiveCategory(cat) {
+            currentCategory = cat;
+            const pills = document.querySelectorAll('.cat-pill');
+            pills.forEach(pill => {
+                if (pill.getAttribute('onclick').includes(`'${cat}'`)) {
+                    pill.className = 'cat-pill active-pill bg-brand-600 text-white px-4 py-2 rounded-xl text-sm font-bold transition shadow-md shadow-brand-500/20';
+                } else {
+                    pill.className = 'cat-pill bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-xl text-sm font-bold transition';
+                }
+            });
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            const categoryVal = document.getElementById('searchCategorySelect') ? document.getElementById('searchCategorySelect').value : 'all';
+            
+            let filtered = products;
+
+            const targetCat = currentCategory !== 'all' ? currentCategory : categoryVal;
+            if (targetCat !== 'all') {
+                filtered = filtered.filter(p => p.category === targetCat);
+            }
+
+            if (searchVal) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchVal) || p.description.toLowerCase().includes(searchVal));
+            }
+
+            renderProducts(filtered);
+        }
+
+        function syncMobileSearch() {
+            const val = document.getElementById('mobileSearchInput').value;
+            document.getElementById('searchInput').value = val;
+            filterProducts();
+        }
+
+        function sortProducts() {
+            const sortVal = document.getElementById('sortSelect').value;
+            let sorted = [...products];
+
+            if (currentCategory !== 'all') {
+                sorted = sorted.filter(p => p.category === currentCategory);
+            }
+
+            if (sortVal === 'price-asc') {
+                sorted.sort((a, b) => a.price - b.price);
+            } else if (sortVal === 'price-desc') {
+                sorted.sort((a, b) => b.price - a.price);
+            } else if (sortVal === 'rating') {
+                sorted.sort((a, b) => b.rating - a.rating);
+            }
+
+            renderProducts(sorted);
+        }
+
+        function addToCart(productId, qty = 1) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.quantity += qty;
+            } else {
+                cart.push({ ...product, quantity: qty });
+            }
+
+            updateCartUI();
+            showToast(`تمت إضافة "${product.name}" إلى سلة التسوق!`);
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            const list = document.getElementById('cartItemsList');
+            if (cart.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3"></i>
+                        <p class="font-bold text-slate-600">سلة التسوق فارغة حالياً</p>
+                        <p class="text-xs mt-1">ابدأ بإضافة المنتجات الممتازة لسلتك!</p>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 line-clamp-1">${item.name}</h4>
+                            <span class="text-brand-700 font-extrabold text-xs block mt-0.5">${item.price} ر.س</span>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-md bg-white border border-slate-300 text-slate-700 font-bold flex items-center justify-center">-</button>
+                                <span class="text-xs font-bold">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-md bg-white border border-slate-300 text-slate-700 font-bold flex items-center justify-center">+</button>
+                            </div>
+                        </div>
+                        <button onclick="updateQuantity(${item.id}, -${item.quantity})" class="text-slate-400 hover:text-red-500 p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartSubtotal').textContent = `${subtotal.toFixed(2)} ر.س`;
+            document.getElementById('cartTotal').textContent = `${subtotal.toFixed(2)} ر.س`;
+        }
+
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            const product = products.find(p => p.id === productId);
+
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showToast(`تمت إزالة المنتج من المفضلة`, true);
+            } else {
+                wishlist.push(productId);
+                showToast(`تمت إضافة "${product.name}" للمفضلة!`);
+            }
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+            renderProducts();
+            updateWishlistUI();
+        }
+
+        function updateWishlistUI() {
+            const list = document.getElementById('wishlistItemsList');
+            const favProducts = products.filter(p => wishlist.includes(p.id));
+
+            if (favProducts.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-regular fa-heart text-5xl mb-3"></i>
+                        <p class="font-bold text-slate-600">قائمة المفضلة فارغة</p>
+                        <p class="text-xs mt-1">احفظ منتجاتك المفضلة للعودة إليها لاحقاً.</p>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = favProducts.map(p => `
+                    <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                        <img src="${p.image}" alt="${p.name}" class="w-16 h-16 object-cover rounded-xl">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 line-clamp-1">${p.name}</h4>
+                            <span class="text-brand-700 font-extrabold text-xs block mt-0.5">${p.price} ر.س</span>
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="bg-brand-600 text-white p-2 rounded-xl text-xs">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                        <button onclick="toggleWishlist(${p.id})" class="text-red-500 p-2">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function openQuickView(productId) {
+            const product = products.find(p => p.id === productId);
+            const modal = document.getElementById('quickViewModal');
+            const content = document.getElementById('quickViewContent');
+
+            content.innerHTML = `
+                <div class="aspect-square bg-slate-100 rounded-2xl overflow-hidden">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">${product.category === 'beauty' ? 'تجميل' : product.category === 'cleaning' ? 'منظفات' : 'بلاستيك'}</span>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-900 mt-1 mb-2">${product.name}</h3>
+                        <div class="flex items-center gap-2 text-amber-400 text-xs sm:text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="font-bold text-slate-700">${product.rating}</span>
+                            <span class="text-slate-400 text-xs">(${product.reviews} تقييم)</span>
+                        </div>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">${product.description}</p>
+                        
+                        <div class="text-2xl font-black text-brand-700 mb-6">${product.price} ر.س</div>
+                    </div>
+
+                    <button onclick="addToCart(${product.id}); closeQuickView()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/20 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-plus"></i> إضافة إلى سلة التسوق
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeQuickView() {
+            document.getElementById('quickViewModal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function toggleCartDrawer(openForce = false) {
+            const drawer = document.getElementById('cartDrawer');
+            const content = document.getElementById('cartDrawerContent');
+            const isOpen = !drawer.classList.contains('opacity-0');
+
+            if (isOpen && !openForce) {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.add('-translate-x-full');
+            } else {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('-translate-x-full');
+            }
+        }
+
+        function toggleWishlistDrawer() {
+            const drawer = document.getElementById('wishlistDrawer');
+            const content = document.getElementById('wishlistDrawerContent');
+            const isOpen = !drawer.classList.contains('opacity-0');
+
+            if (isOpen) {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.add('-translate-x-full');
+            } else {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('-translate-x-full');
+            }
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('سلة التسوق فارغة حالياً!', true);
+                return;
+            }
+            toggleCartDrawer();
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('checkoutAmount').textContent = `${subtotal.toFixed(2)} ر.س`;
+
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            showToast('تم استلام طلبك بنجاح! سيتواصل معك فريقنا قريباً.');
+            cart = [];
+            updateCartUI();
+            closeCheckoutModal();
+        }
+
+        function toggleMobileNav() {
+            const drawer = document.getElementById('mobileNavDrawer');
+            const content = document.getElementById('mobileNavContent');
+            const isOpen = !drawer.classList.contains('opacity-0');
+
+            if (isOpen) {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.add('translate-x-full');
+            } else {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('translate-x-full');
+            }
+        }
+
+        function toggleMobileSearch() {
+            const bar = document.getElementById('mobileSearchBar');
+            bar.classList.toggle('hidden');
+        }
+
+        function scrollToProducts() {
+            document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function setSlide(index) {
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('.slide-dot');
+
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.remove('opacity-0', 'pointer-events-none');
+                    slide.classList.add('opacity-100');
+                    dots[i].className = 'slide-dot w-8 h-3 rounded-full bg-brand-500 transition-all';
+                } else {
+                    slide.classList.add('opacity-0', 'pointer-events-none');
+                    slide.classList.remove('opacity-100');
+                    dots[i].className = 'slide-dot w-3 h-3 rounded-full bg-white/40 transition-all';
+                }
+            });
+            currentSlide = index;
+        }
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % 3;
+            setSlide(currentSlide);
+        }, 5000);
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast('شكراً لاشتراكك في النشرة البريدية لمتجر النجم الشامل!');
+            e.target.reset();
+        }
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            renderProducts();
+            updateCartUI();
+            updateWishlistUI();
+        };
+    </script>
+</body>
+</html>
